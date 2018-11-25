@@ -11,12 +11,18 @@ public class Scorer : MonoBehaviour
     {
         if (other.transform.CompareTag("Crane"))
         {
+            print("2");
             isHooked = true;
         }
         if (other.transform.CompareTag("Platform"))
         {
             isPlaced = true;
         }
+    }
+
+    void OnTriggerStay2D(Collider2D other)
+    {
+        OnTriggerEnter2D(other);
     }
 
     void OnTriggerExit2D(Collider2D other)

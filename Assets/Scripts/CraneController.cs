@@ -62,6 +62,7 @@ public class CraneController : MonoBehaviour
         {
             bone1.GetComponent<HingeJoint2D>().useMotor = false;
             isRotating = false;
+            keyHolding = null;
         }
 
         if (Input.GetKeyDown(KeyCode.D))
@@ -89,6 +90,7 @@ public class CraneController : MonoBehaviour
         {
             bone1.GetComponent<HingeJoint2D>().useMotor = false;
             isRotating = false;
+            keyHolding = null;
         }
 
         if (Input.GetKeyDown(KeyCode.W))
@@ -116,6 +118,7 @@ public class CraneController : MonoBehaviour
         {
             bone2.GetComponent<HingeJoint2D>().useMotor = false;
             isRotating = false;
+            keyHolding = null;
         }
 
         if (Input.GetKeyDown(KeyCode.S))
@@ -143,6 +146,7 @@ public class CraneController : MonoBehaviour
         {
             bone2.GetComponent<HingeJoint2D>().useMotor = false;
             isRotating = false;
+            keyHolding = null;
         }
     }
 
@@ -170,10 +174,10 @@ public class CraneController : MonoBehaviour
             }
             else if (isHooking && keyHooking == "J")
             {
-                if (hook1.GetComponent<RelativeJoint2D>().angularOffset < -20)
-                    hook1.GetComponent<RelativeJoint2D>().angularOffset += hookSpeed * Time.deltaTime;
-                if (hook2.GetComponent<RelativeJoint2D>().angularOffset > 20)
-                    hook2.GetComponent<RelativeJoint2D>().angularOffset -= hookSpeed * Time.deltaTime;
+                if (hook1.GetComponent<RelativeJoint2D>().angularOffset > 20)
+                    hook1.GetComponent<RelativeJoint2D>().angularOffset -= hookSpeed * Time.deltaTime;
+                if (hook2.GetComponent<RelativeJoint2D>().angularOffset < -20)
+                    hook2.GetComponent<RelativeJoint2D>().angularOffset += hookSpeed * Time.deltaTime;
             }
         }
 
@@ -191,12 +195,12 @@ public class CraneController : MonoBehaviour
             }
             else if (isHooking && keyHooking == "K")
             {
-/*                if (hook1.GetComponent<RelativeJoint2D>().angularOffset > -60)
-                    hook1.GetComponent<RelativeJoint2D>().angularOffset -= hookSpeed * Time.deltaTime;
-                if (hook2.GetComponent<RelativeJoint2D>().angularOffset < 60)
-                    hook2.GetComponent<RelativeJoint2D>().angularOffset += hookSpeed * Time.deltaTime;*/
-                hook1.GetComponent<RelativeJoint2D>().angularOffset = -60;
-                hook2.GetComponent<RelativeJoint2D>().angularOffset = 60;
+/*                if (hook1.GetComponent<RelativeJoint2D>().angularOffset < 60)
+                    hook1.GetComponent<RelativeJoint2D>().angularOffset += hookSpeed * Time.deltaTime;
+                if (hook2.GetComponent<RelativeJoint2D>().angularOffset > -60)
+                    hook2.GetComponent<RelativeJoint2D>().angularOffset -= hookSpeed * Time.deltaTime;*/
+                hook1.GetComponent<RelativeJoint2D>().angularOffset = 60;
+                hook2.GetComponent<RelativeJoint2D>().angularOffset = -60;
             }
         }
 
