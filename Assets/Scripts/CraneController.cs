@@ -191,10 +191,12 @@ public class CraneController : MonoBehaviour
             }
             else if (isHooking && keyHooking == "K")
             {
-                if (hook1.GetComponent<RelativeJoint2D>().angularOffset > -60)
+/*                if (hook1.GetComponent<RelativeJoint2D>().angularOffset > -60)
                     hook1.GetComponent<RelativeJoint2D>().angularOffset -= hookSpeed * Time.deltaTime;
                 if (hook2.GetComponent<RelativeJoint2D>().angularOffset < 60)
-                    hook2.GetComponent<RelativeJoint2D>().angularOffset += hookSpeed * Time.deltaTime;
+                    hook2.GetComponent<RelativeJoint2D>().angularOffset += hookSpeed * Time.deltaTime;*/
+                hook1.GetComponent<RelativeJoint2D>().angularOffset = -60;
+                hook2.GetComponent<RelativeJoint2D>().angularOffset = 60;
             }
         }
 

@@ -1,61 +1,53 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class BlockManager : MonoBehaviour
 {
-    private bool hasBlock = true;
-    private float waitingTime = 0f;
     public float spawnTime = 3f;
-    private int numberOfColliders = 0;
 
-    List<Collision2D> collidedObjects = new List<Collision2D>();
-    
-    //public List<GameObject> blockList;    
-    public GameObject[] blockListArray;
+    private Transform spawnPoint;
+    private int blockNum = 0;
+    private float waitingTime = 0f;
+    readonly List<Collision2D> blockOnGround = new List<Collision2D>();
+    private GameObject[] blockLibrary;
 
     private void Start()
     {
-        blockListArray = Resources.LoadAll<GameObject>("Prefabs");
-        //blockList = blockListArray.ToList();
+        blockLibrary = Resources.LoadAll<GameObject>("Prefabs/Blocks");
+        spawnPoint = GameObject.Find("SpawnPoint").transform;
     }
 
     private void Update()
     {
-        print(numberOfColliders);
-        numberOfColliders = collidedObjects.Count;
-        if (numberOfColliders == 0)
+        blockNum = blockOnGround.Count;
+        if (blockNum == 0)
         {
             waitingTime += Time.deltaTime;
             if (waitingTime > spawnTime)
             {
-                GameObject randomBlock = blockListArray[Random.Range(0, blockListArray.Length)];
-                Instantiate(randomBlock);
+                Instantiate(blockLibrary[Random.Range(0, blockLibrary.Length)], spawnPoint);
                 waitingTime = 0f;
             }
-            collidedObjects.Clear();
+
+            blockOnGround.Clear();
             return;
         }
+
         waitingTime = 0f;
-        collidedObjects.Clear();
+        blockOnGround.Clear();
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (!collidedObjects.Contains(other) && other.collider.tag == "Crate")
+        if (!blockOnGround.Contains(other) && other.collider.tag == "Crate")
         {
-            collidedObjects.Add(other);
-            //print("add");
+            blockOnGround.Add(other);
         }
     }
 
     void OnCollisionStay2D(Collision2D other)
     {
-        if (!collidedObjects.Contains(other) && other.collider.tag == "Crate")
-        {
-            collidedObjects.Add(other);
-            //print("stay");
-        }
+        OnCollisionEnter2D(other);
     }
 }
