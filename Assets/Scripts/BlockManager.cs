@@ -29,11 +29,9 @@ public class BlockManager : MonoBehaviour
                 Instantiate(blockLibrary[Random.Range(0, blockLibrary.Length)], spawnPoint);
                 waitingTime = 0f;
             }
-
             blockOnGround.Clear();
             return;
         }
-
         waitingTime = 0f;
         blockOnGround.Clear();
     }

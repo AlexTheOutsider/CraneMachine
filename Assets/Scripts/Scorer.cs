@@ -11,7 +11,6 @@ public class Scorer : MonoBehaviour
     {
         if (other.transform.CompareTag("Crane"))
         {
-            print("2");
             isHooked = true;
         }
         if (other.transform.CompareTag("Platform"))

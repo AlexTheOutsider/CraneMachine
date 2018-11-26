@@ -7,6 +7,12 @@ public class CraneController : MonoBehaviour
     public float hookSpeed;
     public float armSpeed;
 
+    public float leftHookOpenDegree = 60f;
+    public float leftHookCloseDegree = 20f;
+    public float rightHookOpenDegree = -60f;
+    public float rightHookCloseDegree = -20f;
+    public float smooth = 5f;
+
     private Transform bone1;
     private Transform bone2;
     private Transform hook1;
@@ -174,10 +180,17 @@ public class CraneController : MonoBehaviour
             }
             else if (isHooking && keyHooking == "J")
             {
-                if (hook1.GetComponent<RelativeJoint2D>().angularOffset > 20)
+/*                if (hook1.GetComponent<RelativeJoint2D>().angularOffset > 20)
                     hook1.GetComponent<RelativeJoint2D>().angularOffset -= hookSpeed * Time.deltaTime;
                 if (hook2.GetComponent<RelativeJoint2D>().angularOffset < -20)
-                    hook2.GetComponent<RelativeJoint2D>().angularOffset += hookSpeed * Time.deltaTime;
+                    hook2.GetComponent<RelativeJoint2D>().angularOffset += hookSpeed * Time.deltaTime;*/
+
+                hook1.GetComponent<RelativeJoint2D>().angularOffset =
+                    Mathf.Lerp(hook1.GetComponent<RelativeJoint2D>().angularOffset, leftHookCloseDegree,
+                        Time.deltaTime * smooth);
+                hook2.GetComponent<RelativeJoint2D>().angularOffset =
+                    Mathf.Lerp(hook2.GetComponent<RelativeJoint2D>().angularOffset, rightHookCloseDegree,
+                        Time.deltaTime * smooth);
             }
         }
 

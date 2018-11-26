@@ -28,9 +28,10 @@ public class GameManager : MonoBehaviour
         {
             if (crate.GetComponent<Scorer>().isHooked || !crate.GetComponent<Scorer>().isPlaced)
                 continue;
-            int scoreNew = Mathf.RoundToInt(crate.transform.position.y * 10f);
+            int scoreNew = Mathf.RoundToInt((crate.transform.position.y + 2.5f) * 10f);
             scoreTemp = (scoreTemp < scoreNew) ? scoreNew : scoreTemp;
         }
+
         scoreCurrent = scoreTemp;
         scoreHistory = (scoreCurrent > scoreHistory) ? scoreCurrent : scoreHistory;
         UpdateScore();
