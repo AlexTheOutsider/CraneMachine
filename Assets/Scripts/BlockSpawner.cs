@@ -9,7 +9,7 @@ public class BlockSpawner : MonoBehaviour
     private GameObject[] blockLibrary;
     private Transform spawnPoint;
     readonly List<Collider2D> blockOnPlatform = new List<Collider2D>();
-    
+
     private void Start()
     {
         blockLibrary = Resources.LoadAll<GameObject>("Prefabs/Blocks");
@@ -19,21 +19,23 @@ public class BlockSpawner : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        
         if (!blockOnPlatform.Contains(other) && other.CompareTag("Crate")&&!other.gameObject.GetComponent<Scorer>().isHooked)
-        {       
-            //StartCoroutine(SpawnBlock(other));
+        {
             blockOnPlatform.Add(other);
+            //StartCoroutine(SpawnBlock(other));
             Instantiate(blockLibrary[Random.Range(0, blockLibrary.Length)], spawnPoint);
         }
     }
 
     IEnumerator SpawnBlock(Collider2D other)
     {
-/*        while (other.gameObject.GetComponent<Scorer>().isHooked)
+        while (other.gameObject.GetComponent<Scorer>().isHooked)
         {
             yield return new WaitForSeconds(waitingTime);
-        }*/
-        yield return new WaitForSeconds(waitingTime);
+        }
+
+        //yield return new WaitForSeconds(waitingTime);
         Instantiate(blockLibrary[Random.Range(0, blockLibrary.Length)], spawnPoint);
     }
 
