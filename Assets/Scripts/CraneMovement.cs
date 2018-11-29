@@ -10,6 +10,8 @@ public class CraneMovement : MonoBehaviour
     private Rigidbody2D rigidbody2d;
     private bool isMoving = false;
     private string keyHolding;
+    private bool isElevating = false;
+    private bool direction = false;//0 is up, 1 is down
 
     void Start()
     {
@@ -18,9 +20,11 @@ public class CraneMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        Move();
+        //Move();
+        Elevate();
         Freeze();
         SpeedLimit();
+        PositionLimit();
     }
 
     void Move()
@@ -74,11 +78,52 @@ public class CraneMovement : MonoBehaviour
         }
     }
 
+    void Elevate()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (isElevating == false)
+            {
+                isElevating = true;
+                rigidbody2d.constraints &= ~RigidbodyConstraints2D.FreezePositionY;
+            }
+        }
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            if (isElevating)
+            {
+                if (!direction)
+                {
+                    rigidbody2d.AddForce(transform.up * accForce);
+                }
+                else if(direction)
+                {
+                    rigidbody2d.AddForce(-transform.up * accForce);
+                }
+            }
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            if (isElevating)
+            {
+                isElevating = false;
+                direction = !direction;
+            }
+        }
+    }
+    
     void Freeze()
     {
         if (!isMoving)
         {
             rigidbody2d.constraints |= RigidbodyConstraints2D.FreezePositionX;
+        }
+
+        if (!isElevating)
+        {
+            rigidbody2d.constraints |= RigidbodyConstraints2D.FreezePositionY;
         }
     }
 
@@ -87,6 +132,15 @@ public class CraneMovement : MonoBehaviour
         if (rigidbody2d.velocity.magnitude > maxSpeed)
         {
             rigidbody2d.velocity = rigidbody2d.velocity.normalized * maxSpeed;
+        }
+    }
+
+    void PositionLimit()
+    {
+        if (transform.position.y > 5)
+        {
+            Vector2 temp = new Vector2(transform.position.x, 5f);
+            transform.position = temp;
         }
     }
 }
