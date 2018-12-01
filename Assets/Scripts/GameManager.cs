@@ -26,9 +26,10 @@ public class GameManager : MonoBehaviour
         int scoreTemp = 0;
         foreach (GameObject crate in crates)
         {
-            if (crate.GetComponent<Scorer>().isHooked || !crate.GetComponent<Scorer>().isPlaced)
+            if (crate.GetComponent<Scorer>().isHooked || !crate.GetComponent<Scorer>().isPlaced
+                || !(crate.GetComponent<Rigidbody2D>().velocity.magnitude < 0.01f))
                 continue;
-            int scoreNew = Mathf.RoundToInt((crate.transform.position.y + 2.5f) * 10f);
+            int scoreNew = Mathf.RoundToInt((crate.transform.position.y + 3f) * 10f);
             scoreTemp = (scoreTemp < scoreNew) ? scoreNew : scoreTemp;
         }
 

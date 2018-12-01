@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CraneMovement : MonoBehaviour
 {
-    public float accForce = 5f;
-    public float maxSpeed = 5f;
+    public float accForce = 100f;
+    public float maxSpeed = 1f;
 
     private Rigidbody2D rigidbody2d;
     private bool isMoving = false;
@@ -15,7 +15,7 @@ public class CraneMovement : MonoBehaviour
 
     void Start()
     {
-        rigidbody2d = GetComponent<Rigidbody2D>();
+        rigidbody2d = transform.Find("Base").GetComponent<Rigidbody2D>();
     }
 
     void FixedUpdate()
@@ -24,7 +24,6 @@ public class CraneMovement : MonoBehaviour
         Elevate();
         Freeze();
         SpeedLimit();
-        PositionLimit();
     }
 
     void Move()
@@ -132,15 +131,6 @@ public class CraneMovement : MonoBehaviour
         if (rigidbody2d.velocity.magnitude > maxSpeed)
         {
             rigidbody2d.velocity = rigidbody2d.velocity.normalized * maxSpeed;
-        }
-    }
-
-    void PositionLimit()
-    {
-        if (transform.position.y > 5)
-        {
-            Vector2 temp = new Vector2(transform.position.x, 5f);
-            transform.position = temp;
         }
     }
 }

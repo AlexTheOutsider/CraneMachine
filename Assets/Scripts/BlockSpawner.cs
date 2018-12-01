@@ -15,7 +15,7 @@ public class BlockSpawner : MonoBehaviour
     private void Start()
     {
         blockLibrary = Resources.LoadAll<GameObject>("Prefabs/Blocks");
-        spawnPoint = GameObject.Find("SpawnPoint").transform;
+        spawnPoint = GameObject.Find("SpawnPoints").transform.GetChild(0);
         Instantiate(blockLibrary[Random.Range(0, blockLibrary.Length)], spawnPoint);
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CraneController : MonoBehaviour
 {
-    public float hookSpeed;
+    //public float hookSpeed;
     public float armSpeed;
 
     public float leftHookOpenDegree = 60f;
@@ -15,11 +15,13 @@ public class CraneController : MonoBehaviour
 
     private Transform bone1;
     private Transform bone2;
-    private Transform hook1;
-    private Transform hook2;
+    private Transform leftHook;
+    private Transform rightHook;
 
-    private bool isRotating = false;
-    private string keyHolding;
+    private bool isRotatingBone1 = false;
+    private bool isRotatingBone2 = false;
+    private string keyHoldingBone1;
+    private string keyHoldingBone2;
     private JointMotor2D motor;
 
     private bool isHooking = false;
@@ -29,15 +31,15 @@ public class CraneController : MonoBehaviour
     {
         bone1 = transform.Find("Bone1");
         bone2 = transform.Find("Bone2");
-        hook1 = transform.Find("Hook1");
-        hook2 = transform.Find("Hook2");
+        leftHook = transform.Find("HookLeft");
+        rightHook = transform.Find("HookRight");
     }
 
     void FixedUpdate()
     {
         FirstArmControl();
         SecondArmControl();
-        FreezeMovement(!isRotating);
+        FreezeMovement(isRotatingBone1, isRotatingBone2);
         HookControl();
     }
 
@@ -45,10 +47,10 @@ public class CraneController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            if (isRotating == false)
+            if (isRotatingBone1 == false)
             {
-                keyHolding = "A";
-                isRotating = true;
+                keyHoldingBone1 = "A";
+                isRotatingBone1 = true;
                 bone1.GetComponent<Rigidbody2D>().freezeRotation = false;
                 motor = bone1.GetComponent<HingeJoint2D>().motor;
                 motor.motorSpeed = -armSpeed;
@@ -58,25 +60,28 @@ public class CraneController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.A))
         {
-            if (isRotating && keyHolding == "A")
+            if (isRotatingBone1 && keyHoldingBone1 == "A")
             {
                 bone1.GetComponent<HingeJoint2D>().useMotor = true;
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.A) && keyHolding == "A")
+        if (Input.GetKeyUp(KeyCode.A))
         {
-            bone1.GetComponent<HingeJoint2D>().useMotor = false;
-            isRotating = false;
-            keyHolding = null;
+            if (isRotatingBone1 && keyHoldingBone1 == "A")
+            {
+                bone1.GetComponent<HingeJoint2D>().useMotor = false;
+                isRotatingBone1 = false;
+                keyHoldingBone1 = null;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            if (isRotating == false)
+            if (isRotatingBone1 == false)
             {
-                keyHolding = "D";
-                isRotating = true;
+                keyHoldingBone1 = "D";
+                isRotatingBone1 = true;
                 bone1.GetComponent<Rigidbody2D>().freezeRotation = false;
                 motor = bone1.GetComponent<HingeJoint2D>().motor;
                 motor.motorSpeed = armSpeed;
@@ -86,25 +91,31 @@ public class CraneController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.D))
         {
-            if (isRotating && keyHolding == "D")
+            if (isRotatingBone1 && keyHoldingBone1 == "D")
             {
                 bone1.GetComponent<HingeJoint2D>().useMotor = true;
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.D) && keyHolding == "D")
+        if (Input.GetKeyUp(KeyCode.D))
         {
-            bone1.GetComponent<HingeJoint2D>().useMotor = false;
-            isRotating = false;
-            keyHolding = null;
+            if (isRotatingBone1 && keyHoldingBone1 == "D")
+            {
+                bone1.GetComponent<HingeJoint2D>().useMotor = false;
+                isRotatingBone1 = false;
+                keyHoldingBone1 = null;
+            }
         }
+    }
 
+    void SecondArmControl()
+    {
         if (Input.GetKeyDown(KeyCode.W))
         {
-            if (isRotating == false)
+            if (isRotatingBone2 == false)
             {
-                keyHolding = "W";
-                isRotating = true;
+                keyHoldingBone2 = "W";
+                isRotatingBone2 = true;
                 bone2.GetComponent<Rigidbody2D>().freezeRotation = false;
                 motor = bone2.GetComponent<HingeJoint2D>().motor;
                 motor.motorSpeed = -armSpeed;
@@ -114,25 +125,28 @@ public class CraneController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W))
         {
-            if (isRotating && keyHolding == "W")
+            if (isRotatingBone2 && keyHoldingBone2 == "W")
             {
                 bone2.GetComponent<HingeJoint2D>().useMotor = true;
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.W) && keyHolding == "W")
+        if (Input.GetKeyUp(KeyCode.W))
         {
-            bone2.GetComponent<HingeJoint2D>().useMotor = false;
-            isRotating = false;
-            keyHolding = null;
+            if (isRotatingBone2 && keyHoldingBone2 == "W")
+            {
+                bone2.GetComponent<HingeJoint2D>().useMotor = false;
+                isRotatingBone2 = false;
+                keyHoldingBone2 = null;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.S))
         {
-            if (isRotating == false)
+            if (isRotatingBone2 == false)
             {
-                keyHolding = "S";
-                isRotating = true;
+                keyHoldingBone2 = "S";
+                isRotatingBone2 = true;
                 bone2.GetComponent<Rigidbody2D>().freezeRotation = false;
                 motor = bone2.GetComponent<HingeJoint2D>().motor;
                 motor.motorSpeed = armSpeed;
@@ -142,54 +156,61 @@ public class CraneController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.S))
         {
-            if (isRotating && keyHolding == "S")
+            if (isRotatingBone2 && keyHoldingBone2 == "S")
             {
                 bone2.GetComponent<HingeJoint2D>().useMotor = true;
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.S) && keyHolding == "S")
+        if (Input.GetKeyUp(KeyCode.S))
         {
-            bone2.GetComponent<HingeJoint2D>().useMotor = false;
-            isRotating = false;
-            keyHolding = null;
+            if (isRotatingBone2 && keyHoldingBone2 == "S")
+            {
+                bone2.GetComponent<HingeJoint2D>().useMotor = false;
+                isRotatingBone2 = false;
+                keyHoldingBone2 = null;
+            }
         }
     }
 
-    void SecondArmControl()
+    void FreezeMovement(bool isRotatingLeft, bool isRotatingRight)
     {
-    }
-
-    void FreezeMovement(bool freeze)
-    {
-        if (freeze)
+        if (!isRotatingLeft)
         {
             bone1.GetComponent<Rigidbody2D>().freezeRotation = true;
+        }
+
+        if (!isRotatingRight)
+        {
             bone2.GetComponent<Rigidbody2D>().freezeRotation = true;
         }
     }
 
     void HookControl()
     {
-        if (Input.GetKey(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.J))
         {
             if (isHooking == false)
             {
                 keyHooking = "J";
                 isHooking = true;
             }
-            else if (isHooking && keyHooking == "J")
-            {
-/*                if (hook1.GetComponent<RelativeJoint2D>().angularOffset > 20)
-                    hook1.GetComponent<RelativeJoint2D>().angularOffset -= hookSpeed * Time.deltaTime;
-                if (hook2.GetComponent<RelativeJoint2D>().angularOffset < -20)
-                    hook2.GetComponent<RelativeJoint2D>().angularOffset += hookSpeed * Time.deltaTime;*/
+        }
 
-                hook1.GetComponent<RelativeJoint2D>().angularOffset =
-                    Mathf.Lerp(hook1.GetComponent<RelativeJoint2D>().angularOffset, leftHookCloseDegree,
+        if (Input.GetKey(KeyCode.J))
+        {
+            if (isHooking && keyHooking == "J")
+            {
+/*                if (leftHook.GetComponent<RelativeJoint2D>().angularOffset > 20)
+                    leftHook.GetComponent<RelativeJoint2D>().angularOffset -= hookSpeed * Time.deltaTime;
+                if (rightHook.GetComponent<RelativeJoint2D>().angularOffset < -20)
+                    rightHook.GetComponent<RelativeJoint2D>().angularOffset += hookSpeed * Time.deltaTime;*/
+
+                leftHook.GetComponent<RelativeJoint2D>().angularOffset =
+                    Mathf.Lerp(leftHook.GetComponent<RelativeJoint2D>().angularOffset, leftHookCloseDegree,
                         Time.deltaTime * smooth);
-                hook2.GetComponent<RelativeJoint2D>().angularOffset =
-                    Mathf.Lerp(hook2.GetComponent<RelativeJoint2D>().angularOffset, rightHookCloseDegree,
+                rightHook.GetComponent<RelativeJoint2D>().angularOffset =
+                    Mathf.Lerp(rightHook.GetComponent<RelativeJoint2D>().angularOffset, rightHookCloseDegree,
                         Time.deltaTime * smooth);
             }
         }
@@ -197,29 +218,35 @@ public class CraneController : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.J) && keyHooking == "J")
         {
             isHooking = false;
+            keyHooking = null;
         }
 
-        if (Input.GetKey(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             if (isHooking == false)
             {
                 keyHooking = "K";
                 isHooking = true;
             }
-            else if (isHooking && keyHooking == "K")
+        }
+
+        if (Input.GetKey(KeyCode.K))
+        {
+            if (isHooking && keyHooking == "K")
             {
-/*                if (hook1.GetComponent<RelativeJoint2D>().angularOffset < 60)
-                    hook1.GetComponent<RelativeJoint2D>().angularOffset += hookSpeed * Time.deltaTime;
-                if (hook2.GetComponent<RelativeJoint2D>().angularOffset > -60)
-                    hook2.GetComponent<RelativeJoint2D>().angularOffset -= hookSpeed * Time.deltaTime;*/
-                hook1.GetComponent<RelativeJoint2D>().angularOffset = 60;
-                hook2.GetComponent<RelativeJoint2D>().angularOffset = -60;
+/*                if (leftHook.GetComponent<RelativeJoint2D>().angularOffset < 60)
+                    leftHook.GetComponent<RelativeJoint2D>().angularOffset += hookSpeed * Time.deltaTime;
+                if (rightHook.GetComponent<RelativeJoint2D>().angularOffset > -60)
+                    rightHook.GetComponent<RelativeJoint2D>().angularOffset -= hookSpeed * Time.deltaTime;*/
+                leftHook.GetComponent<RelativeJoint2D>().angularOffset = leftHookOpenDegree;
+                rightHook.GetComponent<RelativeJoint2D>().angularOffset = rightHookOpenDegree;
             }
         }
 
         if (Input.GetKeyUp(KeyCode.K) && keyHooking == "K")
         {
             isHooking = false;
+            keyHooking = null;
         }
     }
 }
