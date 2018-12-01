@@ -10,6 +10,7 @@
           <e p="BlockManager.cs" t="Include" />
           <e p="BlockSpawner.cs" t="Include" />
           <e p="CameraFollow.cs" t="Include" />
+          <e p="CameraFollowLoosely.cs" t="Include" />
           <e p="CraneController.cs" t="Include" />
           <e p="CraneMovement.cs" t="Include" />
           <e p="GameManager.cs" t="Include" />
