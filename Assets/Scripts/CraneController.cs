@@ -1,20 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Timers;
 using UnityEngine;
 
 public class CraneController : MonoBehaviour
 {
-    //public float hookSpeed;
-    public float armSpeed;
-
+    public float armSpeed = 20f;
+    //public float hookSpeed = 5f;
     public float leftHookOpenDegree = 60f;
     public float leftHookCloseDegree = 20f;
     public float rightHookOpenDegree = -60f;
     public float rightHookCloseDegree = -20f;
-    public float smooth = 5f;
+    public float hookSmooth = 5f;
+    public float dropSmooth = 0.5f;
+    public float maxLength = 10f;
+    public float minLength = 1f;
 
     private Transform bone1;
     private Transform bone2;
+    private Transform bone3;
     private Transform leftHook;
     private Transform rightHook;
 
@@ -25,25 +29,30 @@ public class CraneController : MonoBehaviour
     private JointMotor2D motor;
 
     private bool isHooking = false;
+    private bool hookDirection = false; //0 is close, 1 is open
     private string keyHooking;
+    private bool isExtending = false;
+    private bool extendDirection = false; //0 is extend, 1 is contract
+    private DistanceJoint2D distanceJoint2D;
 
-    void Start()
+    private void Start()
     {
         bone1 = transform.Find("Bone1");
         bone2 = transform.Find("Bone2");
+        bone3 = transform.Find("Bone3");
         leftHook = transform.Find("HookLeft");
         rightHook = transform.Find("HookRight");
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         FirstArmControl();
-        SecondArmControl();
+        //SecondArmControl();
         FreezeMovement(isRotatingBone1, isRotatingBone2);
         HookControl();
     }
 
-    void FirstArmControl()
+    private void FirstArmControl()
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
@@ -108,7 +117,7 @@ public class CraneController : MonoBehaviour
         }
     }
 
-    void SecondArmControl()
+    private void SecondArmControl()
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
@@ -173,7 +182,7 @@ public class CraneController : MonoBehaviour
         }
     }
 
-    void FreezeMovement(bool isRotatingLeft, bool isRotatingRight)
+    private void FreezeMovement(bool isRotatingLeft, bool isRotatingRight)
     {
         if (!isRotatingLeft)
         {
@@ -186,42 +195,56 @@ public class CraneController : MonoBehaviour
         }
     }
 
-    void HookControl()
+    private void HookControl()
     {
         if (Input.GetKeyDown(KeyCode.J))
         {
             if (isHooking == false)
             {
-                keyHooking = "J";
                 isHooking = true;
             }
         }
 
         if (Input.GetKey(KeyCode.J))
         {
-            if (isHooking && keyHooking == "J")
+            if (isHooking)
             {
+                if (!hookDirection)
+                {
 /*                if (leftHook.GetComponent<RelativeJoint2D>().angularOffset > 20)
                     leftHook.GetComponent<RelativeJoint2D>().angularOffset -= hookSpeed * Time.deltaTime;
                 if (rightHook.GetComponent<RelativeJoint2D>().angularOffset < -20)
                     rightHook.GetComponent<RelativeJoint2D>().angularOffset += hookSpeed * Time.deltaTime;*/
 
-                leftHook.GetComponent<RelativeJoint2D>().angularOffset =
-                    Mathf.Lerp(leftHook.GetComponent<RelativeJoint2D>().angularOffset, leftHookCloseDegree,
-                        Time.deltaTime * smooth);
-                rightHook.GetComponent<RelativeJoint2D>().angularOffset =
-                    Mathf.Lerp(rightHook.GetComponent<RelativeJoint2D>().angularOffset, rightHookCloseDegree,
-                        Time.deltaTime * smooth);
+                    leftHook.GetComponent<RelativeJoint2D>().angularOffset =
+                        Mathf.Lerp(leftHook.GetComponent<RelativeJoint2D>().angularOffset, leftHookCloseDegree,
+                            Time.deltaTime * hookSmooth);
+                    rightHook.GetComponent<RelativeJoint2D>().angularOffset =
+                        Mathf.Lerp(rightHook.GetComponent<RelativeJoint2D>().angularOffset, rightHookCloseDegree,
+                            Time.deltaTime * hookSmooth);
+                }
+                else if (hookDirection)
+                {
+                    /*                if (leftHook.GetComponent<RelativeJoint2D>().angularOffset < 60)
+                    leftHook.GetComponent<RelativeJoint2D>().angularOffset += hookSpeed * Time.deltaTime;
+                if (rightHook.GetComponent<RelativeJoint2D>().angularOffset > -60)
+                    rightHook.GetComponent<RelativeJoint2D>().angularOffset -= hookSpeed * Time.deltaTime;*/
+                    leftHook.GetComponent<RelativeJoint2D>().angularOffset = leftHookOpenDegree;
+                    rightHook.GetComponent<RelativeJoint2D>().angularOffset = rightHookOpenDegree;
+                }
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.J) && keyHooking == "J")
+        if (Input.GetKeyUp(KeyCode.J))
         {
-            isHooking = false;
-            keyHooking = null;
+            if (isHooking)
+            {
+                isHooking = false;
+                hookDirection = !hookDirection;
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.K))
+/*        if (Input.GetKeyDown(KeyCode.K))
         {
             if (isHooking == false)
             {
@@ -234,10 +257,10 @@ public class CraneController : MonoBehaviour
         {
             if (isHooking && keyHooking == "K")
             {
-/*                if (leftHook.GetComponent<RelativeJoint2D>().angularOffset < 60)
+                /*if (leftHook.GetComponent<RelativeJoint2D>().angularOffset < 60)
                     leftHook.GetComponent<RelativeJoint2D>().angularOffset += hookSpeed * Time.deltaTime;
                 if (rightHook.GetComponent<RelativeJoint2D>().angularOffset > -60)
-                    rightHook.GetComponent<RelativeJoint2D>().angularOffset -= hookSpeed * Time.deltaTime;*/
+                    rightHook.GetComponent<RelativeJoint2D>().angularOffset -= hookSpeed * Time.deltaTime;#1#
                 leftHook.GetComponent<RelativeJoint2D>().angularOffset = leftHookOpenDegree;
                 rightHook.GetComponent<RelativeJoint2D>().angularOffset = rightHookOpenDegree;
             }
@@ -247,6 +270,43 @@ public class CraneController : MonoBehaviour
         {
             isHooking = false;
             keyHooking = null;
+        }*/
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            if (isExtending == false)
+            {
+                isExtending = true;
+            }
+        }
+
+        if (Input.GetKey(KeyCode.L))
+        {
+            if (isExtending)
+            {
+                distanceJoint2D = bone3.GetComponent<DistanceJoint2D>();
+                if (extendDirection)
+                {
+                    if (distanceJoint2D.distance < maxLength)
+                        distanceJoint2D.distance = Mathf.Lerp(distanceJoint2D.distance, maxLength,
+                            dropSmooth * Time.deltaTime);
+                }
+                else if (!extendDirection)
+                {
+                    if (distanceJoint2D.distance > minLength)
+                        distanceJoint2D.distance = Mathf.Lerp(distanceJoint2D.distance, minLength,
+                            dropSmooth * Time.deltaTime);
+                }
+            }
+        }
+
+        if (Input.GetKeyUp(KeyCode.L))
+        {
+            if (isExtending)
+            {
+                isExtending = false;
+                extendDirection = !extendDirection;
+            }
         }
     }
 }

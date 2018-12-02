@@ -11,14 +11,14 @@ public class CraneMovement : MonoBehaviour
     private bool isMoving = false;
     private string keyHolding;
     private bool isElevating = false;
-    private bool direction = false;//0 is up, 1 is down
+    private bool direction = false; //0 is up, 1 is down
 
-    void Start()
+    private void Start()
     {
         rigidbody2d = transform.Find("Base").GetComponent<Rigidbody2D>();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         //Move();
         Elevate();
@@ -26,7 +26,7 @@ public class CraneMovement : MonoBehaviour
         SpeedLimit();
     }
 
-    void Move()
+    private void Move()
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
@@ -77,7 +77,7 @@ public class CraneMovement : MonoBehaviour
         }
     }
 
-    void Elevate()
+    private void Elevate()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -113,7 +113,7 @@ public class CraneMovement : MonoBehaviour
         }
     }
     
-    void Freeze()
+    private void Freeze()
     {
         if (!isMoving)
         {
@@ -126,7 +126,7 @@ public class CraneMovement : MonoBehaviour
         }
     }
 
-    void SpeedLimit()
+    private void SpeedLimit()
     {
         if (rigidbody2d.velocity.magnitude > maxSpeed)
         {

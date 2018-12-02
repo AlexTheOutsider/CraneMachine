@@ -20,7 +20,7 @@ public class CameraFollowLoosely : MonoBehaviour
 
         CameraFollow(cranePosition, cameraPosition);
     }
-
+    
     void CameraFollow(Vector2 cranePosition, Vector2 cameraPosition)
     {
         float distanceY = GetComponent<Camera>().orthographicSize + cameraPosition.y - cranePosition.y;
