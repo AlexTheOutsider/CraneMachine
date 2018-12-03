@@ -7,10 +7,10 @@ using Random = UnityEngine.Random;
 public class BlockSpawner : MonoBehaviour
 {
     public float waitingTime = 3f;
-
-    private GameObject[] blockLibrary;
+    public List<Collider2D> blockOnPlatform = new List<Collider2D>();
+    
+    private GameObject[] blockLibrary;   
     private Transform spawnPoint;
-    readonly List<Collider2D> blockOnPlatform = new List<Collider2D>();
 
     private void Start()
     {
@@ -21,8 +21,8 @@ public class BlockSpawner : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        
-        if (!blockOnPlatform.Contains(other) && other.CompareTag("Crate")&&!other.gameObject.GetComponent<Scorer>().isHooked)
+        if (!blockOnPlatform.Contains(other) && other.CompareTag("Crate") &&
+            !other.gameObject.GetComponent<Scorer>().isHooked)
         {
             blockOnPlatform.Add(other);
             //StartCoroutine(SpawnBlock(other));

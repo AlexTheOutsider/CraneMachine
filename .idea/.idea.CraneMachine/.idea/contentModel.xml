@@ -18,6 +18,7 @@
           <e p="GameManager.cs" t="Include" />
           <e p="Scorer.cs" t="Include" />
         </e>
+        <e p="TextFlicker.cs" t="Include" />
       </e>
       <e p="CraneMachine.sln" t="IncludeFlat" />
       <e p="Library" t="ExcludeRecursive" />

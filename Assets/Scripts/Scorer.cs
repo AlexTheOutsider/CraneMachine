@@ -7,7 +7,7 @@ public class Scorer : MonoBehaviour
     public bool isHooked = false;
     public bool isPlaced = false;
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.transform.CompareTag("Crane"))
         {
@@ -19,12 +19,12 @@ public class Scorer : MonoBehaviour
         }
     }
 
-    void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         OnTriggerEnter2D(other);
     }
 
-    void OnTriggerExit2D(Collider2D other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         if (other.transform.CompareTag("Crane"))
         {
