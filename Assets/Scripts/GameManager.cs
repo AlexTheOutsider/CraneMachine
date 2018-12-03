@@ -30,9 +30,12 @@ public class GameManager : MonoBehaviour
 
     private Vector3 boneInitialPos;
     private Quaternion boneInitialRos;
+    private Vector3 baseInitialPos;
+    private GameObject[] blockLibrary;
 
     private void Start()
     {
+        print(PlayerPrefs.GetInt("Score"));
         uiCanvas = GameObject.Find("MainUI").GetComponent<Canvas>();
         scoreCurrentText = uiCanvas.transform.Find("ScoreCurrent").GetComponent<Text>();
         scoreHistoryText = uiCanvas.transform.Find("ScoreHistory").GetComponent<Text>();
@@ -42,12 +45,14 @@ public class GameManager : MonoBehaviour
         crane = GameObject.Find("Crane");
         blockSpawner = GameObject.Find("PlatformTrigger").GetComponent<BlockSpawner>();
         spawnPoint = GameObject.Find("SpawnPoints").transform.GetChild(0);
+        blockLibrary = Resources.LoadAll<GameObject>("Prefabs/Blocks");
 
         gameOverPanel.SetActive(false);
         startPanel.SetActive(true);
 
         boneInitialPos = crane.transform.Find("Bone1").position;
         boneInitialRos = crane.transform.Find("Bone1").rotation;
+        baseInitialPos = crane.transform.Find("Base").position;
     }
 
     private void Update()
@@ -85,7 +90,7 @@ public class GameManager : MonoBehaviour
     private void UpdateScore()
     {
         scoreCurrentText.text = scoreCurrent.ToString();
-        scoreHistoryText.text = scoreHistory.ToString();
+        //scoreHistoryText.text = scoreHistory.ToString();
     }
 
     IEnumerator Timer()
@@ -116,6 +121,17 @@ public class GameManager : MonoBehaviour
         StopAllCoroutines();
         gameOverPanel.transform.Find("Score").GetComponent<Text>().text = scoreCurrent.ToString();
         gameOverPanel.SetActive(true);
+        gameOverPanel.transform.Find("ScoreHistory").GetComponent<Text>().text = PlayerPrefs.GetInt("Score").ToString();
+        
+        if (scoreCurrent > PlayerPrefs.GetInt("Score"))
+        {
+            PlayerPrefs.SetInt("Score", scoreCurrent);
+            gameOverPanel.transform.Find("NewRecord").gameObject.SetActive(true);
+        }
+        else
+        {
+            gameOverPanel.transform.Find("NewRecord").gameObject.SetActive(false);
+        }
 
         crane.GetComponent<CraneController>().enabled = false;
         crane.GetComponent<CraneMovement>().enabled = false;
@@ -125,6 +141,7 @@ public class GameManager : MonoBehaviour
     {
         crane.transform.Find("Bone1").position = boneInitialPos;
         crane.transform.Find("Bone1").rotation = boneInitialRos;
+        crane.transform.Find("Base").position = baseInitialPos;
         crane.GetComponent<CraneController>().enabled = true;
         crane.GetComponent<CraneMovement>().enabled = true;
         gameOverPanel.SetActive(false);
@@ -133,6 +150,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+
+        Instantiate(blockLibrary[Random.Range(0, blockLibrary.Length)], spawnPoint);
         StartCoroutine(Timer());
         isOver = false;
     }
