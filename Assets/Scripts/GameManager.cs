@@ -17,35 +17,32 @@ public class GameManager : MonoBehaviour
     private GameObject startPanel;
     private Text timerText;
     private int timerCount = 0;
-
     private int scoreCurrent = 0;
     private int scoreHistory = 0;
-    private GameObject[] crates;
 
+    private GameObject[] crates;
     private bool isStarted = false;
     private bool isOver = false;
+
     private GameObject crane;
     private BlockSpawner blockSpawner;
-    private Transform spawnPoint;
 
     private Vector3 boneInitialPos;
     private Quaternion boneInitialRos;
     private Vector3 baseInitialPos;
-    private GameObject[] blockLibrary;
+
 
     private void Start()
     {
-        print(PlayerPrefs.GetInt("Score"));
         uiCanvas = GameObject.Find("MainUI").GetComponent<Canvas>();
         scoreCurrentText = uiCanvas.transform.Find("ScoreCurrent").GetComponent<Text>();
         scoreHistoryText = uiCanvas.transform.Find("ScoreHistory").GetComponent<Text>();
+        timerText = uiCanvas.transform.Find("Timer").GetComponent<Text>();
         gameOverPanel = uiCanvas.transform.Find("GameOver").gameObject;
         startPanel = uiCanvas.transform.Find("Welcome").gameObject;
-        timerText = uiCanvas.transform.Find("Timer").GetComponent<Text>();
+
         crane = GameObject.Find("Crane");
         blockSpawner = GameObject.Find("PlatformTrigger").GetComponent<BlockSpawner>();
-        spawnPoint = GameObject.Find("SpawnPoints").transform.GetChild(0);
-        blockLibrary = Resources.LoadAll<GameObject>("Prefabs/Blocks");
 
         gameOverPanel.SetActive(false);
         startPanel.SetActive(true);
@@ -118,11 +115,13 @@ public class GameManager : MonoBehaviour
 
     private void GameOver()
     {
+        isOver = true;
+        
         StopAllCoroutines();
         gameOverPanel.transform.Find("Score").GetComponent<Text>().text = scoreCurrent.ToString();
-        gameOverPanel.SetActive(true);
         gameOverPanel.transform.Find("ScoreHistory").GetComponent<Text>().text = PlayerPrefs.GetInt("Score").ToString();
-        
+        gameOverPanel.SetActive(true);
+
         if (scoreCurrent > PlayerPrefs.GetInt("Score"))
         {
             PlayerPrefs.SetInt("Score", scoreCurrent);
@@ -144,15 +143,17 @@ public class GameManager : MonoBehaviour
         crane.transform.Find("Base").position = baseInitialPos;
         crane.GetComponent<CraneController>().enabled = true;
         crane.GetComponent<CraneMovement>().enabled = true;
-        gameOverPanel.SetActive(false);
+        
         blockSpawner.blockOnPlatform.Clear();
-        foreach (Transform child in spawnPoint.transform)
+        foreach (Transform child in blockSpawner.spawnPoint.transform)
         {
             Destroy(child.gameObject);
         }
-
-        Instantiate(blockLibrary[Random.Range(0, blockLibrary.Length)], spawnPoint);
+        Instantiate(blockSpawner.blockLibrary[Random.Range(0, blockSpawner.blockLibrary.Length)],
+            blockSpawner.spawnPoint);
         StartCoroutine(Timer());
+        
         isOver = false;
+        gameOverPanel.SetActive(false);
     }
 }

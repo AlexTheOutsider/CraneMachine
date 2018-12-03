@@ -6,8 +6,6 @@
     <e p="C:\Users\Whalex\RiderProjects\CraneMachine" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
-        <e p="KillZone.cs" t="Include" />
-        <e p="RopeRenderer.cs" t="Include" />
         <e p="Scripts" t="Include">
           <e p="BlockManager.cs" t="Include" />
           <e p="BlockSpawner.cs" t="Include" />
@@ -16,9 +14,11 @@
           <e p="CraneController.cs" t="Include" />
           <e p="CraneMovement.cs" t="Include" />
           <e p="GameManager.cs" t="Include" />
+          <e p="KillZone.cs" t="Include" />
+          <e p="RopeRenderer.cs" t="Include" />
           <e p="Scorer.cs" t="Include" />
+          <e p="TextFlicker.cs" t="Include" />
         </e>
-        <e p="TextFlicker.cs" t="Include" />
       </e>
       <e p="CraneMachine.sln" t="IncludeFlat" />
       <e p="Library" t="ExcludeRecursive" />
