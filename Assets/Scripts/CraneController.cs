@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Timers;
 using UnityEngine;
@@ -6,6 +7,7 @@ using UnityEngine;
 public class CraneController : MonoBehaviour
 {
     public float armSpeed = 20f;
+
     //public float hookSpeed = 5f;
     public float leftHookOpenDegree = 60f;
     public float leftHookCloseDegree = 20f;
@@ -46,15 +48,23 @@ public class CraneController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        FirstArmControl();
-        //SecondArmControl();
+        if (CompareTag("Player1"))
+        {
+            FirstArmControl(KeyCode.A, KeyCode.D);
+            //SecondArmControl();
+            HookControl(KeyCode.J, KeyCode.L);
+        }
+        else if (CompareTag("Player2"))
+        {
+            FirstArmControl(KeyCode.LeftArrow, KeyCode.RightArrow);
+            HookControl(KeyCode.Keypad4, KeyCode.Keypad6);
+        }
         FreezeMovement(isRotatingBone1, isRotatingBone2);
-        HookControl();
     }
 
-    private void FirstArmControl()
+    private void FirstArmControl(KeyCode rotateLeft, KeyCode rotateRight)
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(rotateLeft))
         {
             if (isRotatingBone1 == false)
             {
@@ -67,7 +77,7 @@ public class CraneController : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(rotateLeft))
         {
             if (isRotatingBone1 && keyHoldingBone1 == "A")
             {
@@ -75,7 +85,7 @@ public class CraneController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.A))
+        if (Input.GetKeyUp(rotateLeft))
         {
             if (isRotatingBone1 && keyHoldingBone1 == "A")
             {
@@ -85,7 +95,7 @@ public class CraneController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(rotateRight))
         {
             if (isRotatingBone1 == false)
             {
@@ -98,7 +108,7 @@ public class CraneController : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(rotateRight))
         {
             if (isRotatingBone1 && keyHoldingBone1 == "D")
             {
@@ -106,7 +116,7 @@ public class CraneController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.D))
+        if (Input.GetKeyUp(rotateRight))
         {
             if (isRotatingBone1 && keyHoldingBone1 == "D")
             {
@@ -195,9 +205,9 @@ public class CraneController : MonoBehaviour
         }
     }
 
-    private void HookControl()
+    private void HookControl(KeyCode hookClose, KeyCode ropeExtend)
     {
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(hookClose))
         {
             if (isHooking == false)
             {
@@ -205,7 +215,7 @@ public class CraneController : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.J))
+        if (Input.GetKey(hookClose))
         {
             if (isHooking)
             {
@@ -235,7 +245,7 @@ public class CraneController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.J))
+        if (Input.GetKeyUp(hookClose))
         {
             if (isHooking)
             {
@@ -272,7 +282,7 @@ public class CraneController : MonoBehaviour
             keyHooking = null;
         }*/
 
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(ropeExtend))
         {
             if (isExtending == false)
             {
@@ -280,7 +290,7 @@ public class CraneController : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.L))
+        if (Input.GetKey(ropeExtend))
         {
             if (isExtending)
             {
@@ -300,7 +310,7 @@ public class CraneController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.L))
+        if (Input.GetKeyUp(ropeExtend))
         {
             if (isExtending)
             {

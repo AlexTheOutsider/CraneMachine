@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
     private void GameOver()
     {
         isOver = true;
-        
+
         StopAllCoroutines();
         gameOverPanel.transform.Find("Score").GetComponent<Text>().text = scoreCurrent.ToString();
         gameOverPanel.transform.Find("ScoreHistory").GetComponent<Text>().text = PlayerPrefs.GetInt("Score").ToString();
@@ -143,16 +143,22 @@ public class GameManager : MonoBehaviour
         crane.transform.Find("Base").position = baseInitialPos;
         crane.GetComponent<CraneController>().enabled = true;
         crane.GetComponent<CraneMovement>().enabled = true;
-        
+
         blockSpawner.blockOnPlatform.Clear();
-        foreach (Transform child in blockSpawner.spawnPoint.transform)
+        foreach (Transform child in blockSpawner.spawnPointLeft.transform)
         {
             Destroy(child.gameObject);
         }
         Instantiate(blockSpawner.blockLibrary[Random.Range(0, blockSpawner.blockLibrary.Length)],
-            blockSpawner.spawnPoint);
+            blockSpawner.spawnPointLeft);
+        foreach (Transform child in blockSpawner.spawnPointRight.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        Instantiate(blockSpawner.blockLibrary[Random.Range(0, blockSpawner.blockLibrary.Length)],
+            blockSpawner.spawnPointRight);
         StartCoroutine(Timer());
-        
+
         isOver = false;
         gameOverPanel.SetActive(false);
     }

@@ -8,13 +8,13 @@ public class RopeRenderer : MonoBehaviour
     private DistanceJoint2D distanceJoint2D;
     private LineRenderer lineRenderer;
     private Transform bone1;
-
+    
     private void Start()
     {
         distanceJoint2D = GetComponent<DistanceJoint2D>();
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = 2;
-        bone1 = GameObject.Find("Bone1").transform;
+        bone1 = transform.parent.Find("Bone1");
     }
 
     private void Update()

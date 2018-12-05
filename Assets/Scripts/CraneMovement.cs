@@ -21,7 +21,10 @@ public class CraneMovement : MonoBehaviour
     private void FixedUpdate()
     {
         //Move();
-        Elevate();
+        if (CompareTag("Player1"))
+            Elevate(KeyCode.Space);
+        else if(CompareTag("Player2"))
+            Elevate((KeyCode.Keypad0));
         Freeze();
         SpeedLimit();
     }
@@ -77,9 +80,9 @@ public class CraneMovement : MonoBehaviour
         }
     }
 
-    private void Elevate()
+    private void Elevate(KeyCode elevateKey)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(elevateKey))
         {
             if (isElevating == false)
             {
@@ -88,7 +91,7 @@ public class CraneMovement : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(elevateKey))
         {
             if (isElevating)
             {
@@ -96,14 +99,14 @@ public class CraneMovement : MonoBehaviour
                 {
                     rigidbody2d.AddForce(transform.up * accForce);
                 }
-                else if(direction)
+                else if (direction)
                 {
                     rigidbody2d.AddForce(-transform.up * accForce);
                 }
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(elevateKey))
         {
             if (isElevating)
             {
@@ -112,7 +115,7 @@ public class CraneMovement : MonoBehaviour
             }
         }
     }
-    
+
     private void Freeze()
     {
         if (!isMoving)
