@@ -82,6 +82,7 @@ public class CraneController : MonoBehaviour
             if (isRotatingBone1 && keyHoldingBone1 == "A")
             {
                 bone1.GetComponent<HingeJoint2D>().useMotor = true;
+                //print(bone1.GetComponent<HingeJoint2D>().referenceAngle);
             }
         }
 
@@ -113,6 +114,7 @@ public class CraneController : MonoBehaviour
             if (isRotatingBone1 && keyHoldingBone1 == "D")
             {
                 bone1.GetComponent<HingeJoint2D>().useMotor = true;
+                //print(bone1.GetComponent<HingeJoint2D>().jointAngle);
             }
         }
 

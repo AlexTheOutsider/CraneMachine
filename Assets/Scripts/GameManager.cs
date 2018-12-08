@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
                                                       || !(crate.GetComponent<Rigidbody2D>().velocity.magnitude <
                                                            0.1f))
                 continue;
-            int scoreNew = Mathf.RoundToInt((crate.transform.position.y + 3f) * 10f);
+            int scoreNew = Mathf.RoundToInt((crate.transform.position.y + 3.5f) * 10f);
             scoreTemp = (scoreTemp < scoreNew) ? scoreNew : scoreTemp;
         }
 
