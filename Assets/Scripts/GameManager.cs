@@ -25,11 +25,16 @@ public class GameManager : MonoBehaviour
     private bool isOver = false;
 
     private GameObject crane;
+    private GameObject crane2;
     private BlockSpawner blockSpawner;
 
     private Vector3 boneInitialPos;
     private Quaternion boneInitialRos;
     private Vector3 baseInitialPos;
+    
+    private Vector3 boneInitialPos2;
+    private Quaternion boneInitialRos2;
+    private Vector3 baseInitialPos2;
 
 
     private void Start()
@@ -42,6 +47,7 @@ public class GameManager : MonoBehaviour
         startPanel = uiCanvas.transform.Find("Welcome").gameObject;
 
         crane = GameObject.Find("Crane");
+        crane2 = GameObject.Find("Crane (1)");
         blockSpawner = GameObject.Find("PlatformTrigger").GetComponent<BlockSpawner>();
 
         gameOverPanel.SetActive(false);
@@ -50,6 +56,10 @@ public class GameManager : MonoBehaviour
         boneInitialPos = crane.transform.Find("Bone1").position;
         boneInitialRos = crane.transform.Find("Bone1").rotation;
         baseInitialPos = crane.transform.Find("Base").position;
+        
+        boneInitialPos2 = crane2.transform.Find("Bone1").position;
+        boneInitialRos2 = crane2.transform.Find("Bone1").rotation;
+        baseInitialPos2 = crane2.transform.Find("Base").position;
     }
 
     private void Update()
@@ -134,6 +144,9 @@ public class GameManager : MonoBehaviour
 
         crane.GetComponent<CraneController>().enabled = false;
         crane.GetComponent<CraneMovement>().enabled = false;
+        
+        crane2.GetComponent<CraneController>().enabled = false;
+        crane2.GetComponent<CraneMovement>().enabled = false;
     }
 
     public void Replay()
@@ -143,6 +156,12 @@ public class GameManager : MonoBehaviour
         crane.transform.Find("Base").position = baseInitialPos;
         crane.GetComponent<CraneController>().enabled = true;
         crane.GetComponent<CraneMovement>().enabled = true;
+        
+        crane2.transform.Find("Bone1").position = boneInitialPos2;
+        crane2.transform.Find("Bone1").rotation = boneInitialRos2;
+        crane2.transform.Find("Base").position = baseInitialPos2;
+        crane2.GetComponent<CraneController>().enabled = true;
+        crane2.GetComponent<CraneMovement>().enabled = true;
 
         blockSpawner.blockOnPlatform.Clear();
         foreach (Transform child in blockSpawner.spawnPointLeft.transform)
@@ -155,7 +174,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        Instantiate(blockSpawner.blockLibrary[Random.Range(0, blockSpawner.blockLibrary.Length)],
+        Instantiate(blockSpawner.blockLibrary2[Random.Range(0, blockSpawner.blockLibrary2.Length)],
             blockSpawner.spawnPointRight);
         StartCoroutine(Timer());
 

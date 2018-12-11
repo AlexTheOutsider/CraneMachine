@@ -10,16 +10,18 @@ public class BlockSpawner : MonoBehaviour
     public float waitingTime = 3f;
     public List<Collider2D> blockOnPlatform = new List<Collider2D>();  
     public GameObject[] blockLibrary;   
+    public GameObject[] blockLibrary2;   
     public Transform spawnPointLeft;
     public Transform spawnPointRight;
 
     private void Start()
     {
-        blockLibrary = Resources.LoadAll<GameObject>("Prefabs/Blocks");
+        blockLibrary = Resources.LoadAll<GameObject>("Prefabs/Blocks/Tetris");
+        blockLibrary2 = Resources.LoadAll<GameObject>("Prefabs/Blocks/Special");
         spawnPointLeft = GameObject.Find("SpawnPoints").transform.GetChild(0);
         spawnPointRight = GameObject.Find("SpawnPoints").transform.GetChild(1);
         Instantiate(blockLibrary[Random.Range(0, blockLibrary.Length)], spawnPointLeft);
-        Instantiate(blockLibrary[Random.Range(0, blockLibrary.Length)], spawnPointRight);
+        Instantiate(blockLibrary2[Random.Range(0, blockLibrary2.Length)], spawnPointRight);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -32,7 +34,7 @@ public class BlockSpawner : MonoBehaviour
             if (other.transform.parent.name.Contains("Left"))
                 Instantiate(blockLibrary[Random.Range(0, blockLibrary.Length)], spawnPointLeft);
             else if (other.transform.parent.name.Contains("Right"))
-                Instantiate(blockLibrary[Random.Range(0, blockLibrary.Length)], spawnPointRight);
+                Instantiate(blockLibrary2[Random.Range(0, blockLibrary2.Length)], spawnPointRight);
         }
     }
 
