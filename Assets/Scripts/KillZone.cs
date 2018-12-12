@@ -15,14 +15,14 @@ public class KillZone : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Crate"))
+        if (other.CompareTag("Crate")||other.CompareTag("Crate2"))
         {
             if (!blockSpawner.blockOnPlatform.Contains(other))
             {
                 if (other.transform.parent.name.Contains("Left"))
                     Instantiate(blockSpawner.blockLibrary[Random.Range(0, blockSpawner.blockLibrary.Length)], blockSpawner.spawnPointLeft);
                 else if (other.transform.parent.name.Contains("Right"))
-                    Instantiate(blockSpawner.blockLibrary[Random.Range(0, blockSpawner.blockLibrary.Length)], blockSpawner.spawnPointRight);
+                    Instantiate(blockSpawner.blockLibrary2[Random.Range(0, blockSpawner.blockLibrary.Length)], blockSpawner.spawnPointRight);
             }
             else
             {

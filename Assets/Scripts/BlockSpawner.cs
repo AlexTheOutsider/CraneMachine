@@ -8,9 +8,9 @@ using Random = UnityEngine.Random;
 public class BlockSpawner : MonoBehaviour
 {
     public float waitingTime = 3f;
-    public List<Collider2D> blockOnPlatform = new List<Collider2D>();  
-    public GameObject[] blockLibrary;   
-    public GameObject[] blockLibrary2;   
+    public List<Collider2D> blockOnPlatform = new List<Collider2D>();
+    public GameObject[] blockLibrary;
+    public GameObject[] blockLibrary2;
     public Transform spawnPointLeft;
     public Transform spawnPointRight;
 
@@ -26,7 +26,7 @@ public class BlockSpawner : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!blockOnPlatform.Contains(other) && other.CompareTag("Crate") &&
+        if (!blockOnPlatform.Contains(other) && (other.CompareTag("Crate") || other.CompareTag("Crate2")) &&
             !other.gameObject.GetComponent<Scorer>().isHooked)
         {
             blockOnPlatform.Add(other);
@@ -38,7 +38,7 @@ public class BlockSpawner : MonoBehaviour
         }
     }
 
-    IEnumerator SpawnBlock(Collider2D other)
+/*    IEnumerator SpawnBlock(Collider2D other)
     {
         while (other.gameObject.GetComponent<Scorer>().isHooked)
         {
@@ -47,7 +47,7 @@ public class BlockSpawner : MonoBehaviour
 
         //yield return new WaitForSeconds(waitingTime);
         Instantiate(blockLibrary[Random.Range(0, blockLibrary.Length)], spawnPointLeft);
-    }
+    }*/
 
     private void OnTriggerStay2D(Collider2D other)
     {

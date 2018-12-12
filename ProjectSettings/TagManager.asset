@@ -9,6 +9,7 @@ TagManager:
   - Platform
   - Player1
   - Player2
+  - Crate2
   layers:
   - Default
   - TransparentFX
