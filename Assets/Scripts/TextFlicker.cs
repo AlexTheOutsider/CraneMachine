@@ -25,7 +25,7 @@ public class TextFlicker : MonoBehaviour
             if (direction)
                 alpha = Mathf.Lerp(welcomeText.color.a, 1f, Time.deltaTime);
             else
-                alpha = Mathf.Lerp(welcomeText.color.a, 0.3f, Time.deltaTime);
+                alpha = Mathf.Lerp(welcomeText.color.a, 0.2f, Time.deltaTime);
         }
         else
         {

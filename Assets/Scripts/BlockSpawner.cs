@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public class BlockSpawner : MonoBehaviour
 {
-    public float waitingTime = 3f;
+    //public float waitingTime = 3f;
     public List<Collider2D> blockOnPlatform = new List<Collider2D>();
     public GameObject[] blockLibrary;
     public GameObject[] blockLibrary2;
