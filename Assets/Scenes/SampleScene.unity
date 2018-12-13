@@ -738,7 +738,7 @@ RelativeJoint2D:
   m_GameObject: {fileID: 156607285}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 1
+  m_EnableCollision: 0
   m_ConnectedRigidBody: {fileID: 1620091937}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -762,7 +762,7 @@ Rigidbody2D:
   m_UseAutoMass: 1
   m_Mass: 0.17952348
   m_LinearDrag: 0
-  m_AngularDrag: 50
+  m_AngularDrag: 20
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -1074,7 +1074,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 351613116}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 10, z: 0}
+  m_LocalPosition: {x: 0, y: 11, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1443461182}
@@ -1248,7 +1248,7 @@ GameObject:
   - component: {fileID: 391727431}
   - component: {fileID: 391727430}
   - component: {fileID: 391727432}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: RightAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1371,7 +1371,7 @@ Rigidbody2D:
   m_UseAutoMass: 1
   m_Mass: 0.17896804
   m_LinearDrag: 0
-  m_AngularDrag: 50
+  m_AngularDrag: 20
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -2769,7 +2769,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 634d6c530ae99c24f832d6ecd12ce69a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intervalTime: 3
+  intervalTime: 1.5
+  smooth: 3
 --- !u!114 &710544886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2843,7 +2844,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -50, y: -15}
-  m_SizeDelta: {x: 80, y: 30}
+  m_SizeDelta: {x: 100, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &715681286
 MonoBehaviour:
@@ -3203,6 +3204,7 @@ GameObject:
   - component: {fileID: 841625542}
   - component: {fileID: 841625541}
   - component: {fileID: 841625543}
+  - component: {fileID: 841625544}
   m_Layer: 5
   m_Name: GameOver
   m_TagString: Untagged
@@ -3288,6 +3290,22 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &841625544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 841625539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &849103449
 GameObject:
   m_ObjectHideFlags: 0
@@ -3919,7 +3937,7 @@ Rigidbody2D:
   m_UseAutoMass: 1
   m_Mass: 1
   m_LinearDrag: 1
-  m_AngularDrag: 0
+  m_AngularDrag: 100
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -4075,7 +4093,7 @@ GameObject:
   - component: {fileID: 959197305}
   - component: {fileID: 959197304}
   - component: {fileID: 959197306}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: LeftAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4389,7 +4407,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 50, y: -15}
-  m_SizeDelta: {x: 80, y: 30}
+  m_SizeDelta: {x: 100, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1054179414
 MonoBehaviour:
@@ -5658,7 +5676,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1243055114}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 10, z: 0}
+  m_LocalPosition: {x: 0, y: 11, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1625147814}
@@ -5860,7 +5878,7 @@ Rigidbody2D:
   m_UseAutoMass: 1
   m_Mass: 1
   m_LinearDrag: 1
-  m_AngularDrag: 0
+  m_AngularDrag: 100
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -6176,7 +6194,7 @@ GameObject:
   - component: {fileID: 1396523222}
   - component: {fileID: 1396523220}
   - component: {fileID: 1396523221}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: RightAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7348,7 +7366,7 @@ GameObject:
   - component: {fileID: 1620091939}
   - component: {fileID: 1620091937}
   - component: {fileID: 1620091938}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: LeftAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}

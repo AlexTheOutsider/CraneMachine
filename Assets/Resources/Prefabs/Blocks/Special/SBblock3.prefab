@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212967860660936482}
   - component: {fileID: 50451305691513200}
   - component: {fileID: 114749707090034032}
-  - component: {fileID: 60555016792475774}
+  - component: {fileID: 60041496479288152}
   m_Layer: 11
   m_Name: SBblock3
   m_TagString: Crate2
@@ -54,7 +54,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 5.9098344
+  m_Mass: 1.06795
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -63,7 +63,7 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!60 &60555016792475774
+--- !u!60 &60041496479288152
 PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -79,7 +79,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.04, y: 3.16}
+    oldSize: {x: 1.91, y: 3.25}
     newSize: {x: 1.03, y: 1.03}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -87,14 +87,36 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.6688814, y: 0.74233794}
-      - {x: -0.67312264, y: 0.7400733}
-      - {x: -1.52, y: 1.5799999}
-      - {x: -1.52, y: -1.5799999}
-      - {x: -0.6690348, y: -0.7297045}
-      - {x: 0.6672217, y: -0.73133814}
-      - {x: 1.52, y: -1.5799999}
-      - {x: 1.52, y: 1.5799999}
+    - - {x: 0.36499998, y: -0.60499996}
+      - {x: 0.325, y: -0.53499997}
+      - {x: 0.625, y: -0.53499997}
+      - {x: 0.645, y: -0.515}
+      - {x: 0.645, y: 0.515}
+      - {x: 0.625, y: 0.53499997}
+      - {x: 0.325, y: 0.53499997}
+      - {x: 0.685, y: 1.125}
+      - {x: 0.92499995, y: 1.525}
+      - {x: 0.955, y: 1.5849999}
+      - {x: 0.955, y: 1.625}
+      - {x: -0.955, y: 1.625}
+      - {x: -0.955, y: 1.5649999}
+      - {x: -0.905, y: 1.475}
+      - {x: -0.39499998, y: 0.625}
+      - {x: -0.375, y: 0.60499996}
+      - {x: -0.33499998, y: 0.53499997}
+      - {x: -0.635, y: 0.53499997}
+      - {x: -0.655, y: 0.515}
+      - {x: -0.655, y: -0.515}
+      - {x: -0.635, y: -0.53499997}
+      - {x: -0.33499998, y: -0.53499997}
+      - {x: -0.60499996, y: -0.97499996}
+      - {x: -0.935, y: -1.525}
+      - {x: -0.955, y: -1.5649999}
+      - {x: -0.955, y: -1.625}
+      - {x: 0.955, y: -1.625}
+      - {x: 0.955, y: -1.5849999}
+      - {x: 0.895, y: -1.475}
+      - {x: 0.385, y: -0.625}
 --- !u!114 &114749707090034032
 MonoBehaviour:
   m_ObjectHideFlags: 1

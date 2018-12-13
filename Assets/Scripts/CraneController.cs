@@ -129,7 +129,7 @@ public class CraneController : MonoBehaviour
         }
     }
 
-    private void SecondArmControl()
+    /*private void SecondArmControl()
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
@@ -192,7 +192,7 @@ public class CraneController : MonoBehaviour
                 keyHoldingBone2 = null;
             }
         }
-    }
+    }*/
 
     private void FreezeMovement(bool isRotatingLeft, bool isRotatingRight)
     {

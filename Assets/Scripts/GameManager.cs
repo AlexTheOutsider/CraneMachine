@@ -100,7 +100,8 @@ public class GameManager : MonoBehaviour
                                                            0.1f))
                 continue;
             int scoreNew = Mathf.RoundToInt((crate.transform.position.y + 3.5f) * 10f);
-            scoreTemp = (scoreTemp < scoreNew) ? scoreNew : scoreTemp;
+            //scoreTemp = (scoreTemp < scoreNew) ? scoreNew : scoreTemp;
+            scoreTemp += scoreNew;
         }
 
         if (tag.Equals("Crate"))

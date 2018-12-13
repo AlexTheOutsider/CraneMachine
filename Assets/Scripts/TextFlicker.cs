@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net.Mail;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TextFlicker : MonoBehaviour
 {
-    public float intervalTime = 1f;
+    public float intervalTime = 1.5f;
+    public float smooth = 5f;
 
     private float timeEllapsed = 0f;
     private Text welcomeText;
@@ -23,9 +25,9 @@ public class TextFlicker : MonoBehaviour
         {
             timeEllapsed += Time.deltaTime;
             if (direction)
-                alpha = Mathf.Lerp(welcomeText.color.a, 1f, Time.deltaTime);
+                alpha = Mathf.Lerp(welcomeText.color.a, 1f, Time.deltaTime * smooth);
             else
-                alpha = Mathf.Lerp(welcomeText.color.a, 0.2f, Time.deltaTime);
+                alpha = Mathf.Lerp(welcomeText.color.a, 0.2f, Time.deltaTime * smooth);
         }
         else
         {
