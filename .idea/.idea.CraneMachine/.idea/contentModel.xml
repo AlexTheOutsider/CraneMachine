@@ -13,6 +13,7 @@
           <e p="CameraFollowLoosely.cs" t="Include" />
           <e p="CraneController.cs" t="Include" />
           <e p="CraneMovement.cs" t="Include" />
+          <e p="DontDestroy.cs" t="Include" />
           <e p="GameManager.cs" t="Include" />
           <e p="KillZone.cs" t="Include" />
           <e p="RopeRenderer.cs" t="Include" />

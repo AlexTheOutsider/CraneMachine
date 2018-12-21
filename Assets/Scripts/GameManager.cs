@@ -4,67 +4,63 @@ using System.Collections.Generic;
 using System.Timers;
 using UnityEngine;
 using UnityEngine.Analytics;
+using UnityEngine.Experimental.PlayerLoop;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
     public int timerPreset = 180;
 
+    private static GameObject instance;
     private Canvas uiCanvas;
     private Text scoreCurrentText;
-
     private Text scoreCurrentText2;
-
     //private Text scoreHistoryText;
     private Text timerText;
     private GameObject startPanel;
     private GameObject gameOverPanel;
+    private Button replayButton;
 
     private int timerCount = 0;
     private int scoreCurrent = 0;
-
     private int scoreCurrent2 = 0;
     //private int scoreHistory = 0;
 
     private GameObject[] crates;
     private bool isStarted = false;
     private bool isOver = false;
+    private bool isReloading = false;
 
     private GameObject crane;
     private GameObject crane2;
     private BlockSpawner blockSpawner;
 
-    private Vector3 baseInitialPos;
+/*    private Vector3 baseInitialPos;
     private Vector3 boneInitialPos;
     private Quaternion boneInitialRos;
-
     private Vector3 baseInitialPos2;
     private Vector3 boneInitialPos2;
-    private Quaternion boneInitialRos2;
+    private Quaternion boneInitialRos2;*/
 
     private void Awake()
     {
         if (instance == null)
         {
-            instance = this;
+            instance = gameObject;
+            DontDestroyOnLoad(gameObject);
+            InitGame();
         }
-        else if (instance != this)
+        else if (instance != gameObject)
         {
             Destroy(gameObject);
+            return;
         }
     }
-
+    
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
-
-        FindObject();
-        startPanel.SetActive(true);
-        gameOverPanel.SetActive(false);
-
 /*        baseInitialPos = crane.transform.Find("Base").position;
         boneInitialPos = crane.transform.Find("Bone1").position;
         boneInitialRos = crane.transform.Find("Bone1").rotation;
@@ -72,9 +68,15 @@ public class GameManager : MonoBehaviour
         baseInitialPos2 = crane2.transform.Find("Base").position;
         boneInitialPos2 = crane2.transform.Find("Bone1").position;
         boneInitialRos2 = crane2.transform.Find("Bone1").rotation;*/
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void FindObject()
+    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        InitGame();
+    }
+    
+    private void InitGame()
     {
         uiCanvas = GameObject.Find("MainUI").GetComponent<Canvas>();
         scoreCurrentText = uiCanvas.transform.Find("ScoreCurrent").GetComponent<Text>();
@@ -83,16 +85,30 @@ public class GameManager : MonoBehaviour
         timerText = uiCanvas.transform.Find("Timer").GetComponent<Text>();
         startPanel = uiCanvas.transform.Find("Welcome").gameObject;
         gameOverPanel = uiCanvas.transform.Find("GameOver").gameObject;
-        print(timerText);
+        replayButton = gameOverPanel.transform.Find("Replay").GetComponent<Button>();
 
         crane = GameObject.Find("Crane");
         crane2 = GameObject.Find("Crane1");
         blockSpawner = GameObject.Find("PlatformTrigger").GetComponent<BlockSpawner>();
+        
+        startPanel.SetActive(true);
+        gameOverPanel.SetActive(false);
+
+        replayButton.onClick.AddListener(Replay);
     }
     
     private void Update()
     {
-        if (Input.anyKey && !isStarted)
+        if (isStarted)
+        {
+            startPanel.SetActive(false);
+            if (isReloading)
+            { 
+                StartCoroutine(Timer());
+                isReloading = false;
+            }
+        }
+        else if (Input.anyKey)
         {
             startPanel.SetActive(false);
             StartCoroutine(Timer());
@@ -236,10 +252,8 @@ public class GameManager : MonoBehaviour
             blockSpawner.spawnPointRight);
             
         gameOverPanel.SetActive(false);*/
-        
         SceneManager.LoadScene(0);
-        StartCoroutine(Timer());
         isOver = false;
-        Start();
+        isReloading = true;
     }
 }
