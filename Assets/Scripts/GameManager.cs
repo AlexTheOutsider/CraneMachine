@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
     public int timerPreset = 180;
 
     private Canvas uiCanvas;
@@ -44,7 +45,36 @@ public class GameManager : MonoBehaviour
     private Vector3 boneInitialPos2;
     private Quaternion boneInitialRos2;
 
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+
+        FindObject();
+        startPanel.SetActive(true);
+        gameOverPanel.SetActive(false);
+
+/*        baseInitialPos = crane.transform.Find("Base").position;
+        boneInitialPos = crane.transform.Find("Bone1").position;
+        boneInitialRos = crane.transform.Find("Bone1").rotation;
+
+        baseInitialPos2 = crane2.transform.Find("Base").position;
+        boneInitialPos2 = crane2.transform.Find("Bone1").position;
+        boneInitialRos2 = crane2.transform.Find("Bone1").rotation;*/
+    }
+
+    private void FindObject()
     {
         uiCanvas = GameObject.Find("MainUI").GetComponent<Canvas>();
         scoreCurrentText = uiCanvas.transform.Find("ScoreCurrent").GetComponent<Text>();
@@ -53,23 +83,13 @@ public class GameManager : MonoBehaviour
         timerText = uiCanvas.transform.Find("Timer").GetComponent<Text>();
         startPanel = uiCanvas.transform.Find("Welcome").gameObject;
         gameOverPanel = uiCanvas.transform.Find("GameOver").gameObject;
+        print(timerText);
 
         crane = GameObject.Find("Crane");
         crane2 = GameObject.Find("Crane1");
         blockSpawner = GameObject.Find("PlatformTrigger").GetComponent<BlockSpawner>();
-
-        startPanel.SetActive(true);
-        gameOverPanel.SetActive(false);
-
-        baseInitialPos = crane.transform.Find("Base").position;
-        boneInitialPos = crane.transform.Find("Bone1").position;
-        boneInitialRos = crane.transform.Find("Bone1").rotation;
-
-        baseInitialPos2 = crane2.transform.Find("Base").position;
-        boneInitialPos2 = crane2.transform.Find("Bone1").position;
-        boneInitialRos2 = crane2.transform.Find("Bone1").rotation;
     }
-
+    
     private void Update()
     {
         if (Input.anyKey && !isStarted)
@@ -177,14 +197,18 @@ public class GameManager : MonoBehaviour
 
         crane.GetComponent<CraneController>().enabled = false;
         crane.GetComponent<CraneMovement>().enabled = false;
+        crane.transform.Find("Base").GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        crane.transform.Find("Bone1").GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
 
         crane2.GetComponent<CraneController>().enabled = false;
         crane2.GetComponent<CraneMovement>().enabled = false;
+        crane2.transform.Find("Base").GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        crane2.transform.Find("Bone1").GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
     }
 
     public void Replay()
     {
-        crane.transform.Find("Base").position = baseInitialPos;
+/*        crane.transform.Find("Base").position = baseInitialPos;
         crane.transform.Find("Bone1").position = boneInitialPos;
         crane.transform.Find("Bone1").rotation = boneInitialRos;
         crane.GetComponent<CraneController>().enabled = true;
@@ -210,9 +234,12 @@ public class GameManager : MonoBehaviour
         }
         Instantiate(blockSpawner.blockLibrary2[Random.Range(0, blockSpawner.blockLibrary2.Length)],
             blockSpawner.spawnPointRight);
+            
+        gameOverPanel.SetActive(false);*/
         
+        SceneManager.LoadScene(0);
         StartCoroutine(Timer());
         isOver = false;
-        gameOverPanel.SetActive(false);
+        Start();
     }
 }
