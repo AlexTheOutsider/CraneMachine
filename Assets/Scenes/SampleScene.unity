@@ -7043,7 +7043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adac35e2f96803848b879567b95cc1fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerPreset: 180
+  timerPreset: 10
 --- !u!4 &1563714494
 Transform:
   m_ObjectHideFlags: 0
